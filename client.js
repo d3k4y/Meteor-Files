@@ -258,11 +258,16 @@ export class FilesCollection extends FilesCollectionCore {
    *   {Function}    readAsDataURL - Current file as data URL, use to create image preview and etc. Be aware of big files, may lead to browser crash
    */
   insert(config, autoStart = true) {
+    console.error('insert', config, autoStart);
     if (this.disableUpload) {
       console.warn('[FilesCollection] [insert()] Upload is disabled with [disableUpload]!');
       return {};
     }
-    return (new UploadInstance(config, this))[autoStart ? 'start' : 'manual']();
+    const uploadInstance = new UploadInstance(config, this);
+    const finalInstance = uploadInstance[autoStart ? 'start' : 'manual']();
+    console.info('foo foo foo', autoStart ? 'start' : 'manual', finalInstance);
+    return finalInstance;
+    // return uploadInstance[autoStart ? 'start' : 'manual']();
   }
 
   /*

@@ -19,10 +19,13 @@ const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
  */
 export class UploadInstance extends EventEmitter {
   constructor(config, collection) {
+    console.info('UploadInstance1');
     super();
     this.config     = config;
     this.collection = collection;
     this.collection._debug('[FilesCollection] [insert()]');
+
+    console.info('UploadInstance2');
 
     if (!this.config.ddp) {
       this.config.ddp = this.collection.ddp;
@@ -57,6 +60,8 @@ export class UploadInstance extends EventEmitter {
     if (!_.isBoolean(this.config.allowWebWorkers)) {
       this.config.allowWebWorkers = true;
     }
+
+    console.info('UploadInstance3');
 
     check(this.config, {
       ddp: Match.Any,
@@ -110,6 +115,8 @@ export class UploadInstance extends EventEmitter {
       }
     }
 
+    console.info('UploadInstance4');
+
     if (this.config.file) {
       if (!this.config.isBase64) {
         try {
@@ -133,16 +140,24 @@ export class UploadInstance extends EventEmitter {
         console.time(`loadFile ${this.fileData.name}`);
       }
 
+      console.info('UploadInstance5');
+
+      // DK: TODO: Webworkers should be created / initialised when the upload is startet not when the UploadInstance is constructed -> allow unlimited queued Uploads with configurable amount of parallel uploads
       if (this.collection._supportWebWorker && this.config.allowWebWorkers) {
+        this.worker = true;
+        /*
         try {
           this.worker = new Worker(this.collection._webWorkerUrl);
         } catch (wwError) {
           this.worker = false;
           this.collection._debug('[FilesCollection] [insert] [create WebWorker]: Can\'t create WebWorker, fallback to MainThread', wwError);
         }
+        */
       } else {
         this.worker = null;
       }
+
+      console.info('UploadInstance6');
 
       this.startTime     = {};
       this.config.debug  = this.collection.debug;
@@ -157,14 +172,20 @@ export class UploadInstance extends EventEmitter {
       this.FSName        = this.collection.namingFunction ? this.collection.namingFunction(this.fileData) : this.fileId;
       this.pipes         = [];
 
+      console.info('UploadInstance7');
+
       this.fileData = _.extend(this.fileData, this.collection._getExt(this.fileData.name), {mime: this.collection._getMimeType(this.fileData)});
       this.fileData['mime-type'] = this.fileData.mime;
+
+      console.info('UploadInstance8');
 
       this.result = new FileUpload(_.extend(this.config, {
         fileData: this.fileData,
         fileId: this.fileId,
         _Abort: this.collection._methodNames._Abort
       }));
+
+      console.info('UploadInstance9');
 
       this.beforeunload = (e) => {
         const message = _.isFunction(this.collection.onbeforeunloadMessage) ? this.collection.onbeforeunloadMessage.call(this.result, this.fileData) : this.collection.onbeforeunloadMessage;
@@ -179,6 +200,8 @@ export class UploadInstance extends EventEmitter {
       window.addEventListener('beforeunload', this.beforeunload, false);
 
       this.result.config._onEnd = () => this.emit('_onEnd');
+
+      console.info('UploadInstance10');
 
       this.addListener('end', this.end);
       this.addListener('start', this.start);
@@ -200,12 +223,18 @@ export class UploadInstance extends EventEmitter {
         this.result.emit('progress', progress, this.fileData);
       }, 250));
 
+      console.info('UploadInstance11');
+
       this.addListener('_onEnd', () => {
         if (this.result.estimateTimer) {
           Meteor.clearInterval(this.result.estimateTimer);
         }
         if (this.worker) {
-          this.worker.terminate();
+          if (typeof this.worker.terminate === 'function') {
+              this.worker.terminate();
+          } else {
+            console.error('could not terminate webworker', this);
+          }
         }
         if (this.trackerComp) {
           this.trackerComp.stop();
@@ -218,6 +247,9 @@ export class UploadInstance extends EventEmitter {
         }
         return void 0;
       });
+
+      console.info('UploadInstance12');
+
     } else {
       throw new Meteor.Error(500, '[FilesCollection] [insert] Have you forget to pass a File itself?');
     }
@@ -416,6 +448,7 @@ export class UploadInstance extends EventEmitter {
   }
 
   upload() {
+    console.error('upload called in UploadInstance');
     if (this.result.onPause.get()) {
       return this;
     }
@@ -546,6 +579,7 @@ export class UploadInstance extends EventEmitter {
   }
 
   start() {
+    console.error('upload start called');
     let isUploadAllowed;
     if (this.fileData.size <= 0) {
       this.end(new Meteor.Error(400, 'Can\'t upload empty file'));
@@ -574,6 +608,16 @@ export class UploadInstance extends EventEmitter {
       }
     });
 
+    // DK: TODO: Workers should be initialized here
+    if (this.worker === true) {
+      console.error('initializing worker');
+      try {
+        this.worker = new Worker(this.collection._webWorkerUrl);
+      } catch (wwError) {
+        this.worker = false;
+        this.collection._debug('[FilesCollection] [insert] [create WebWorker]: Can\'t create WebWorker, fallback to MainThread', wwError);
+      }
+    }
     if (this.worker) {
       this.collection._debug('[FilesCollection] [insert] using WebWorkers');
       this.worker.onmessage = (evt) => {
