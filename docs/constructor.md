@@ -804,7 +804,7 @@
 ### Examples:
 
 ```js
-import { FilesCollection } from 'meteor/ostrio:files';
+import { FilesCollection } from 'meteor/d3k4y:files';
 const Images = new FilesCollection({
   storagePath: 'assets/app/uploads/Images',
   downloadRoute: '/files/images',
@@ -856,7 +856,7 @@ export default Images;
 *To attach schema, use/install [aldeed:collection2](https://github.com/aldeed/meteor-collection2) and [simple-schema](https://atmospherejs.com/aldeed/simple-schema) packages.*
 
 ```js
-import { FilesCollection } from 'meteor/ostrio:files';
+import { FilesCollection } from 'meteor/d3k4y:files';
 const Images = new FilesCollection({/* ... */});
 Images.collection.attachSchema(new SimpleSchema(Images.schema));
 ```
@@ -864,7 +864,7 @@ Images.collection.attachSchema(new SimpleSchema(Images.schema));
 *You're free to extend the schema to include your own properties. The default schema is stored under* `FilesCollection.schema` *object.*
 
 ```js
-import { FilesCollection } from 'meteor/ostrio:files';
+import { FilesCollection } from 'meteor/d3k4y:files';
 const mySchema = {
   ...FilesCollection.schema,
   myProp: String,
@@ -884,7 +884,7 @@ Images.collection.attachSchema(new SimpleSchema(mySchema));
 *Deny insert/update/remove from client*
 
 ```js
-import { FilesCollection } from 'meteor/ostrio:files';
+import { FilesCollection } from 'meteor/d3k4y:files';
 if (Meteor.isServer) {
   const Images = new FilesCollection({/* ... */});
   Images.deny({
@@ -909,7 +909,7 @@ if (Meteor.isServer) {
 *Allow insert/update/remove from client*
 
 ```js
-import { FilesCollection } from 'meteor/ostrio:files';
+import { FilesCollection } from 'meteor/d3k4y:files';
 if (Meteor.isServer) {
   const Images = new FilesCollection({/* ... */});
   Images.allow({
@@ -932,7 +932,7 @@ if (Meteor.isServer) {
 #### Events listeners:
 
 ```js
-import { FilesCollection } from 'meteor/ostrio:files';
+import { FilesCollection } from 'meteor/d3k4y:files';
 const Images = new FilesCollection({/* ... */});
 // Alias addListener
 Images.on('afterUpload', function (fileRef) {
@@ -943,7 +943,7 @@ Images.on('afterUpload', function (fileRef) {
 #### Use onBeforeUpload to avoid unauthorized upload:
 
 ```js
-import { FilesCollection } from 'meteor/ostrio:files';
+import { FilesCollection } from 'meteor/d3k4y:files';
 const Images = new FilesCollection({
   collectionName: 'Images',
   allowClientCode: true,
@@ -968,7 +968,7 @@ const Images = new FilesCollection({
 *For more info see [remove method](https://github.com/VeliovGroup/Meteor-Files/wiki/remove).*
 
 ```js
-import { FilesCollection } from 'meteor/ostrio:files';
+import { FilesCollection } from 'meteor/d3k4y:files';
 const Images = new FilesCollection({
   collectionName: 'Images',
   allowClientCode: true,
@@ -993,7 +993,7 @@ const Images = new FilesCollection({
 For additional security, it's recommended to verify the mimetype by looking at the content of the file and delete it, if it looks malicious. E.g. you can use [`mmmagic` package](https://github.com/mscdex/mmmagic) for this:
 
 ```js
-import { FilesCollection } from 'meteor/ostrio:files';
+import { FilesCollection } from 'meteor/d3k4y:files';
 const Images = new FilesCollection({
   collectionName: 'Images',
   onAfterUpload(file) {

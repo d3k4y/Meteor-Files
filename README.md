@@ -93,14 +93,14 @@ Installation:
 ========
 
 ```shell
-meteor add ostrio:files
+meteor add d3k4y:files
 ```
 
 ES6 Import:
 ========
 
 ```js
-import { FilesCollection } from 'meteor/ostrio:files';
+import { FilesCollection } from 'meteor/d3k4y:files';
 ```
 
 FAQ:
@@ -110,7 +110,7 @@ FAQ:
       - On `development` stage: `yourDevAppDir/.meteor/local/build/programs/server`. __Note: All files will be removed as soon as your application rebuilds__ or you run `meteor reset`. To keep your storage persistent during development use an absolute path *outside of your project folder*, e.g. `/data` directory.
       - On `production`: `yourProdAppDir/programs/server`. __Note: If using MeteorUp (MUP), Docker volumes must to be added to__ `mup.json`, see [MUP usage](https://github.com/VeliovGroup/Meteor-Files/wiki/MeteorUp-(MUP)-Usage)
   2. __How to pause/continue upload and get progress/speed/remaining time?__: see *Object* returned from [`insert` method](https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload))
-  3. When using any of `accounts` packages - package `accounts-base` must be explicitly added to `.meteor/packages` above `ostrio:files`
+  3. When using any of `accounts` packages - package `accounts-base` must be explicitly added to `.meteor/packages` above `d3k4y:files`
   4. __cURL/POST uploads__ - Take a look on [POST-Example](https://github.com/noris666/Meteor-Files-POST-Example) by [@noris666](https://github.com/noris666)
   5. In Safari (Mobile and Desktop) for `DDP` upload streams is hardcoded to `1` and chunk size is reduced by algorithm, due to error hrown if too many connection is open by the browser or frame is too big. Limit simultaneous uploads to `6` is recommended for Safari. This issue should be fixed in Safari 11. Switching to `http` transport (*which has no such issue*) is recommended for Safari. See [#458](https://github.com/VeliovGroup/Meteor-Files/issues/458)
 
@@ -125,7 +125,7 @@ Shared code:
 
 ```js
 import { Meteor } from 'meteor/meteor';
-import { FilesCollection } from 'meteor/ostrio:files';
+import { FilesCollection } from 'meteor/d3k4y:files';
 
 const Images = new FilesCollection({
   collectionName: 'Images',
@@ -170,7 +170,7 @@ Upload form (template):
 Shared code:
 
 ```js
-import { FilesCollection } from 'meteor/ostrio:files';
+import { FilesCollection } from 'meteor/d3k4y:files';
 const Images = new FilesCollection({collectionName: 'Images'});
 export default Images; // To be imported in other files
 ```
@@ -267,7 +267,7 @@ Shared code:
 
 ```js
 import { Meteor } from 'meteor/meteor';
-import { FilesCollection } from 'meteor/ostrio:files';
+import { FilesCollection } from 'meteor/d3k4y:files';
 
 const Images = new FilesCollection({collectionName: 'Images'});
 const Videos = new FilesCollection({collectionName: 'Videos'});
@@ -328,7 +328,7 @@ Shared code:
 
 ```js
 import { Meteor } from 'meteor/meteor';
-import { FilesCollection } from 'meteor/ostrio:files';
+import { FilesCollection } from 'meteor/d3k4y:files';
 const Images = new FilesCollection({collectionName: 'Images'});
 
 if (Meteor.isServer) {

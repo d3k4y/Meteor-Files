@@ -34,14 +34,14 @@ Please note that GM was considered slightly faster than IM so before you chose c
 
 ### Install Meteor/NPM packages
 ```shell
-meteor add ostrio:files
+meteor add d3k4y:files
 meteor npm install --save gm fs-extra
 ```
 
 ### Create FilesCollection
 Initiate *FilesCollection* (`/lib/files.js`):
 ```jsx
-import { FilesCollection }   from 'meteor/ostrio:files';
+import { FilesCollection }   from 'meteor/d3k4y:files';
 
 const uploadsCollection = new FilesCollection({
   storagePath: 'assets/app/uploads/uploadedFiles'

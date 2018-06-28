@@ -21,7 +21,7 @@ Create a `FilesCollection` instance:
 
 ```javascript
 import { Meteor } from 'meteor/meteor';
-import { FilesCollection } from 'meteor/ostrio:files';
+import { FilesCollection } from 'meteor/d3k4y:files';
 
 export const Images = new FilesCollection({
   debug: false, // Change to `true` for debugging
@@ -116,7 +116,7 @@ Here's a final code:
 
 ```javascript
 import { Meteor } from 'meteor/meteor';
-import { FilesCollection } from 'meteor/ostrio:files';
+import { FilesCollection } from 'meteor/d3k4y:files';
 import Grid from 'gridfs-stream';
 import { MongoInternals } from 'meteor/mongo';
 import fs from 'fs';

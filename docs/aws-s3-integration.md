@@ -57,7 +57,7 @@ Use this at Meteor's `imports/server` directory, __NOT__ the client
 import { Meteor } from 'meteor/meteor';
 import { _ } from 'meteor/underscore';
 import { Random } from 'meteor/random';
-import { FilesCollection } from 'meteor/ostrio:files';
+import { FilesCollection } from 'meteor/d3k4y:files';
 import stream from 'stream';
 
 import S3 from 'aws-sdk/clients/s3'; // http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html

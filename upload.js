@@ -448,7 +448,6 @@ export class UploadInstance extends EventEmitter {
   }
 
   upload() {
-    console.error('upload called in UploadInstance');
     if (this.result.onPause.get()) {
       return this;
     }

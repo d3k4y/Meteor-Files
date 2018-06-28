@@ -14,7 +14,7 @@ In this example two components is used. First - to handle the uploads, adds a fi
  which is a FilesCollection, declared something like this:
 
 ```js
-import { FilesCollection } from 'meteor/ostrio:files';
+import { FilesCollection } from 'meteor/d3k4y:files';
 
 export const UserFiles = new FilesCollection({collectionName: 'userfiles'});
 // optionally attach a schema
